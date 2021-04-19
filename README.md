@@ -8,7 +8,7 @@
 
 e executar o comando no diretório principal do projeto mvn package spring-boot:repackage
 
-e depois dentro do diretorio \desafio-south-system\target executar o comando java -jar desafio-0.0.1-SNAPSHOT.jar
+e depois dentro do diretorio \desafio-south-system\target executar o comando <b>java -jar desafio-0.0.1-SNAPSHOT.jar</b>
 
 após isso só executar as requisições feitas no postman.
 
