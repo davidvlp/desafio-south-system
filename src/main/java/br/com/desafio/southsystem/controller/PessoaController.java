@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -38,7 +39,7 @@ public class PessoaController {
 
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Void> CadastrarPessoa(@RequestBody PessoaDTO pessoaDto, UriComponentsBuilder uriBuilder) {
+	public ResponseEntity<Void> CadastrarPessoa(@Valid @RequestBody PessoaDTO pessoaDto, UriComponentsBuilder uriBuilder) {
 
 		pessoaService.salvarPessoa(pessoaDto);
 
@@ -47,7 +48,7 @@ public class PessoaController {
 
 	@Transactional
 	@PostMapping("/cadastrarPessoas")
-	public ResponseEntity<Void> CadastrarPessoas(@RequestBody List<PessoaDTO> pessoaDto) {
+	public ResponseEntity<Void> CadastrarPessoas(@Valid @RequestBody List<PessoaDTO> pessoaDto) {
 
 		 pessoaService.salvarPessoas(pessoaDto);
 

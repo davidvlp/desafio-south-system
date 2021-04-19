@@ -66,7 +66,7 @@ public class PessoaControllerTest {
  public void salvarListaPessoaTest() throws Exception {
 	 List<Pessoa> pessoas = Arrays.asList(this.umaPessoa());
 	 mockMvc
-	 	.perform(post(URI +"/salvarPessoas")
+	 	.perform(post(URI +"/cadastrarPessoas")
 	 			.content(objectMapper.writeValueAsString(pessoas))
 	 			.contentType(MediaType.APPLICATION_JSON))
 	 			.andExpect(status()
