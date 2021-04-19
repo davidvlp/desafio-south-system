@@ -23,98 +23,94 @@ public class PessoaService {
 
 	@Autowired
 	PessoaRepository pessoaRepository;
-	
+
 	@Autowired
 	ContaService contaService;
-	
-	
-	
-	public List<PessoaDTO> listarPessoa () {
-		
-		List<Pessoa> pessoas =  pessoaRepository.findAll();
-		
-		 return  pessoas.stream().map(pessoa -> ParseDTO.pessoaToPessoaDto(pessoa)).collect(Collectors.toList());
+
+	public List<PessoaDTO> listarPessoa() {
+
+		List<Pessoa> pessoas = pessoaRepository.findAll();
+
+		return pessoas.stream().map(pessoa -> ParseDTO.pessoaToPessoaDto(pessoa)).collect(Collectors.toList());
 	}
-	
-public Pessoa buscarPessoa (Long id) {
-		
-		return pessoaRepository.findById(id).orElseThrow(() -> new  SoutSystemNotFoundException(ExceptionMessages.getPessoaNotFoundExceptionMessage(id)));
-		
+
+	public Pessoa buscarPessoa(Long id) {
+
+		return pessoaRepository.findById(id).orElseThrow(
+				() -> new SoutSystemNotFoundException(ExceptionMessages.getPessoaNotFoundExceptionMessage(id)));
+
 	}
-	public PessoaDTO salvarPessoa (PessoaDTO pessoaDto) {
-		
+
+	public PessoaDTO salvarPessoa(PessoaDTO pessoaDto) {
+
 		Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(pessoaDto);
 		Random random = new Random();
 		Integer score = random.nextInt(9);
 		pessoa.setScore(score);
 		Conta conta = montarDadosConta(pessoa, random);
-		
+
 		conta = contaService.salvarConta(conta);
-		
+
 		pessoa.setConta(conta);
-		
+
 		pessoa = pessoaRepository.save(pessoa);
-		
-		
+
 		return ParseDTO.pessoaToPessoaDto(pessoa);
-		
+
 	}
 
-	
-	public List<PessoaDTO> salvarPessoas (List<PessoaDTO> pessoaDto) {
+	public List<PessoaDTO> salvarPessoas(List<PessoaDTO> pessoaDto) {
 
-	List<PessoaDTO> listaPessoas = new ArrayList<PessoaDTO>();
-		
-	try {
-		
-		for (PessoaDTO pessoaDTO2 : pessoaDto) {
-			
-			
+		List<PessoaDTO> listaPessoas = new ArrayList<PessoaDTO>();
+
+		try {
+
+			for (PessoaDTO pessoaDTO2 : pessoaDto) {
+
 				Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(pessoaDTO2);
 				Random random = new Random();
 				Integer score = random.nextInt(9);
 				pessoa.setScore(score);
 				Conta conta = montarDadosConta(pessoa, random);
-				
+
 				conta = contaService.salvarConta(conta);
-				
+
 				pessoa.setConta(conta);
-				
+
 				pessoa = pessoaRepository.save(pessoa);
-				
-				
+
 				listaPessoas.add(ParseDTO.pessoaToPessoaDto(pessoa));
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
-			
-	} catch (Exception e) {
-		e.printStackTrace();
-	}
-		  
+
 		return listaPessoas;
 	}
 
 	private Conta montarDadosConta(Pessoa pessoa, Random random) {
 		Conta conta = new Conta();
-		
-		int i =  (100000 + random.nextInt(899999));
+
+		int i = (100000 + random.nextInt(899999));
 		conta.setNumConta(i);
 		conta.setAgencia(4056);
 		conta.setTipoConta(pessoa.getTipoPessoa().equals("pf") ? "C" : "E");
-		
-		if (pessoa.getScore() >= 2 && pessoa.getScore()<= 5 ) {
+
+		if (pessoa.getScore() >= 2 && pessoa.getScore() <= 5) {
 			conta.setChequeEspecial(BigDecimal.valueOf(1000.00));
 			conta.setCartaoCredito(BigDecimal.valueOf(200.00));
-			
-		}else if (pessoa.getScore() >= 6 && pessoa.getScore()<= 8) {
+
+		} else if (pessoa.getScore() >= 6 && pessoa.getScore() <= 8) {
 			conta.setChequeEspecial(BigDecimal.valueOf(2000.00));
 			conta.setCartaoCredito(BigDecimal.valueOf(2000.00));
-			
-		}else if (pessoa.getScore().equals(9)) {
+
+		} else if (pessoa.getScore().equals(9)) {
 			conta.setChequeEspecial(BigDecimal.valueOf(5000.00));
 			conta.setCartaoCredito(BigDecimal.valueOf(15000.00));
-			
+
 		}
-		
+
 		return conta;
-	} 
+	}
 }

@@ -19,37 +19,33 @@ public class ContaService {
 
 	@Autowired
 	ContaRepository contaRepository;
-	
-	
-	 
-	
-	
-	
-	public List<ContaDTO> listarContas () {
-		
-		
+
+	public List<ContaDTO> listarContas() {
+
 		List<Conta> contas = contaRepository.findAll();
 		return contas.stream().map(conta -> ParseDTO.contaToContaDto(conta)).collect(Collectors.toList());
-		
-	}
-	
-public Conta buscarContaPorID (Long id) {
-		
-		return contaRepository.findById(id).orElseThrow(() -> new  SoutSystemNotFoundException(ExceptionMessages.getContaNotFoundExceptionMessage(id)));
-		
-	}
-	public Conta salvarConta (Conta conta) {
-		
-		Conta contaSalva = contaRepository.save(conta);
-	
-		
-	
-		return contaSalva;
-		
-		
-	
-		
+
 	}
 
-	
+	public ContaDTO buscarContaPorID(Long id) {
+
+		return ParseDTO.contaToContaDto(contaRepository.findById(id).orElseThrow(
+				() -> new SoutSystemNotFoundException(ExceptionMessages.getContaNotFoundExceptionMessage(id))));
+
+	}
+
+	public Conta salvarConta(Conta conta) {
+		Conta contaSalva = new Conta();
+		try {
+			contaSalva = contaRepository.save(conta);
+			return contaSalva;
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return contaSalva;
+
+	}
+
 }

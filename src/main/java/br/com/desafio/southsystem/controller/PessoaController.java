@@ -28,42 +28,37 @@ public class PessoaController {
 
 	@Autowired
 	PessoaService pessoaService;
-	
+
 	@GetMapping
-	public ResponseEntity<?> buscarPessoas(){
+	public ResponseEntity<?> buscarPessoas() {
 		List<PessoaDTO> pessoas = pessoaService.listarPessoa();
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(pessoas);
-	} 
-	
+	}
+
 	@Transactional
 	@PostMapping
-	public ResponseEntity<Void> CadastrarPessoa(@RequestBody PessoaDTO pessoaDto , UriComponentsBuilder uriBuilder){
-		
-		PessoaDTO pessoa = pessoaService.salvarPessoa(pessoaDto);
-		URI uri = uriBuilder.path("/pessoa/{id}").buildAndExpand(pessoa.getId()).toUri();
-		
-		return ResponseEntity.created(uri).build();//ResponseEntity.status(HttpStatus.OK).body(pessoas);
+	public ResponseEntity<Void> CadastrarPessoa(@RequestBody PessoaDTO pessoaDto, UriComponentsBuilder uriBuilder) {
+
+		pessoaService.salvarPessoa(pessoaDto);
+
+		return ResponseEntity.status(HttpStatus.CREATED).build();
 	}
-	
+
 	@Transactional
-	@PostMapping("/salvarPessoas")
-	public ResponseEntity<Void> CadastrarPessoas(@RequestBody List<PessoaDTO> pessoaDto){
-		
-		List<PessoaDTO> pessoa = pessoaService.salvarPessoas(pessoaDto);
-		
-		
-		return ResponseEntity.status(HttpStatus.CREATED).build();//ResponseEntity.status(HttpStatus.OK).body(pessoas);
-	} 
-	
-	
+	@PostMapping("/cadastrarPessoas")
+	public ResponseEntity<Void> CadastrarPessoas(@RequestBody List<PessoaDTO> pessoaDto) {
+
+		 pessoaService.salvarPessoas(pessoaDto);
+
+		return ResponseEntity.status(HttpStatus.CREATED).build();
+	}
+
 	@GetMapping("/{id}")
-	public ResponseEntity<?> buscarPessoa(@PathVariable Long id){
+	public ResponseEntity<?> buscarPessoa(@PathVariable Long id) {
 		Pessoa pessoa = pessoaService.buscarPessoa(id);
-		
+
 		return ResponseEntity.status(HttpStatus.OK).body(pessoa);
-	} 
-	
-	
-	
+	}
+
 }
