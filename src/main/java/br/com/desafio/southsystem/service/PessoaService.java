@@ -5,13 +5,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.com.desafio.southsystem.dto.ContaDTO;
 import br.com.desafio.southsystem.dto.ParseDTO;
 import br.com.desafio.southsystem.dto.PessoaDTO;
+import br.com.desafio.southsystem.exception.ExceptionMessages;
+import br.com.desafio.southsystem.exception.SoutSystemNotFoundException;
 import br.com.desafio.southsystem.model.Conta;
 import br.com.desafio.southsystem.model.Pessoa;
 import br.com.desafio.southsystem.repository.PessoaRepository;
@@ -27,15 +29,16 @@ public class PessoaService {
 	
 	
 	
-	public List<Pessoa> listarPessoa () {
+	public List<PessoaDTO> listarPessoa () {
 		
-		return pessoaRepository.findAll();
+		List<Pessoa> pessoas =  pessoaRepository.findAll();
 		
+		 return  pessoas.stream().map(pessoa -> ParseDTO.pessoaToPessoaDto(pessoa)).collect(Collectors.toList());
 	}
 	
-public Optional<Pessoa> buscarPessoa (Long id) {
+public Pessoa buscarPessoa (Long id) {
 		
-		return pessoaRepository.findById(id);
+		return pessoaRepository.findById(id).orElseThrow(() -> new  SoutSystemNotFoundException(ExceptionMessages.getPessoaNotFoundExceptionMessage(id)));
 		
 	}
 	public PessoaDTO salvarPessoa (PessoaDTO pessoaDto) {
@@ -44,12 +47,14 @@ public Optional<Pessoa> buscarPessoa (Long id) {
 		Random random = new Random();
 		Integer score = random.nextInt(9);
 		pessoa.setScore(score);
+		Conta conta = montarDadosConta(pessoa, random);
+		
+		conta = contaService.salvarConta(conta);
+		
+		pessoa.setConta(conta);
 		
 		pessoa = pessoaRepository.save(pessoa);
 		
-		Conta conta = montarDadosConta(pessoa, random);
-												
-		ContaDTO contaDto = contaService.salvarConta(conta);
 		
 		return ParseDTO.pessoaToPessoaDto(pessoa);
 		
@@ -60,21 +65,30 @@ public Optional<Pessoa> buscarPessoa (Long id) {
 
 	List<PessoaDTO> listaPessoas = new ArrayList<PessoaDTO>();
 		
+	try {
+		
 		for (PessoaDTO pessoaDTO2 : pessoaDto) {
 			
-			Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(pessoaDTO2);
-			Random random = new Random();
-			Integer score = random.nextInt(9);
-			pessoa.setScore(score);
 			
-			pessoa = pessoaRepository.save(pessoa);
-			
-			Conta conta = montarDadosConta(pessoa, random);
-			
-			ContaDTO contaDto = contaService.salvarConta(conta);
-			listaPessoas.add(ParseDTO.pessoaToPessoaDto(pessoa));
+				Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(pessoaDTO2);
+				Random random = new Random();
+				Integer score = random.nextInt(9);
+				pessoa.setScore(score);
+				Conta conta = montarDadosConta(pessoa, random);
+				
+				conta = contaService.salvarConta(conta);
+				
+				pessoa.setConta(conta);
+				
+				pessoa = pessoaRepository.save(pessoa);
+				
+				
+				listaPessoas.add(ParseDTO.pessoaToPessoaDto(pessoa));
 		}
-		
+			
+	} catch (Exception e) {
+		e.printStackTrace();
+	}
 		  
 		return listaPessoas;
 	}
@@ -86,7 +100,6 @@ public Optional<Pessoa> buscarPessoa (Long id) {
 		conta.setNumConta(i);
 		conta.setAgencia(4056);
 		conta.setTipoConta(pessoa.getTipoPessoa().equals("pf") ? "C" : "E");
-		conta.setPessoa(pessoa);
 		
 		if (pessoa.getScore() >= 2 && pessoa.getScore()<= 5 ) {
 			conta.setChequeEspecial(BigDecimal.valueOf(1000.00));

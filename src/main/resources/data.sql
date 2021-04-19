@@ -1,0 +1,4 @@
+INSERT INTO Conta(NUMCONTA, AGENCIA, TIPOCONTA, CHEQUEESPECIAL, CARTAOCREDITO ) VALUES (455412, 456, 'C', 1000, 200);
+INSERT INTO Pessoa(nome, tipoPessoa, numDocumento, score, conta_id) VALUES ('David', 'pf', '45445645644', 5, 1);
+
+

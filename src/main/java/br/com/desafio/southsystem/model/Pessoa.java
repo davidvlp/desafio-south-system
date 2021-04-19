@@ -1,10 +1,12 @@
 package br.com.desafio.southsystem.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -37,6 +39,8 @@ public class Pessoa {
 	@Column(name = "SCORE")
 	private Integer score;
 	
-	
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "conta_id", referencedColumnName = "id")
+	private Conta conta;
 	
 }

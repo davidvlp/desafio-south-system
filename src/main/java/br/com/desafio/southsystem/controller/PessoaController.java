@@ -31,7 +31,7 @@ public class PessoaController {
 	
 	@GetMapping
 	public ResponseEntity<?> buscarPessoas(){
-		List<Pessoa> pessoas = pessoaService.listarPessoa();
+		List<PessoaDTO> pessoas = pessoaService.listarPessoa();
 		
 		return ResponseEntity.status(HttpStatus.OK).body(pessoas);
 	} 
@@ -59,7 +59,7 @@ public class PessoaController {
 	
 	@GetMapping("/{id}")
 	public ResponseEntity<?> buscarPessoa(@PathVariable Long id){
-		Optional<Pessoa> pessoa = pessoaService.buscarPessoa(id);
+		Pessoa pessoa = pessoaService.buscarPessoa(id);
 		
 		return ResponseEntity.status(HttpStatus.OK).body(pessoa);
 	} 

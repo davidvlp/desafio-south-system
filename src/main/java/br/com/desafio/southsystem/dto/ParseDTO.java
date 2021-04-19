@@ -21,6 +21,7 @@ public class ParseDTO {
 	        pessoaDTO.setTipoPessoa( pessoa.getTipoPessoa() );
 	        pessoaDTO.setNumDocumento( pessoa.getNumDocumento() );
 	        pessoaDTO.setScore( pessoa.getScore() );
+	        pessoaDTO.setContaDto(contaToContaDto(pessoa.getConta()));
 
 	        return pessoaDTO;
 	    }
@@ -37,6 +38,7 @@ public class ParseDTO {
 	        pessoa.setTipoPessoa( pessoaDto.getTipoPessoa() );
 	        pessoa.setNumDocumento( pessoaDto.getNumDocumento() );
 	        pessoa.setScore( pessoaDto.getScore() );
+	        pessoa.setConta(contaDtoToConta(pessoaDto.getContaDto()));
 
 	        return pessoa;
 	    }
@@ -69,12 +71,11 @@ public class ParseDTO {
 	        contaDTO.setTipoConta( beer.getTipoConta() );
 	        contaDTO.setChequeEspecial( beer.getChequeEspecial() );
 	        contaDTO.setCartaoCredito( beer.getCartaoCredito() );
-	        contaDTO.setPessoa( beer.getPessoa() );
 
 	        return contaDTO;
 	    }
 
-	    public Conta contaDtoToConta(ContaDTO beerDto) {
+	    public static Conta contaDtoToConta(ContaDTO beerDto) {
 	        if ( beerDto == null ) {
 	            return null;
 	        }
@@ -87,7 +88,6 @@ public class ParseDTO {
 	        conta.setTipoConta( beerDto.getTipoConta() );
 	        conta.setChequeEspecial( beerDto.getChequeEspecial() );
 	        conta.setCartaoCredito( beerDto.getCartaoCredito() );
-	        conta.setPessoa( beerDto.getPessoa() );
 
 	        return conta;
 	    }

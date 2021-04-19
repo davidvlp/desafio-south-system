@@ -2,12 +2,15 @@ package br.com.desafio.southsystem.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import br.com.desafio.southsystem.dto.ContaDTO;
 import br.com.desafio.southsystem.dto.ParseDTO;
+import br.com.desafio.southsystem.exception.ExceptionMessages;
+import br.com.desafio.southsystem.exception.SoutSystemNotFoundException;
 import br.com.desafio.southsystem.model.Conta;
 import br.com.desafio.southsystem.repository.ContaRepository;
 
@@ -22,24 +25,26 @@ public class ContaService {
 	
 	
 	
-	public List<Conta> listarContas () {
+	public List<ContaDTO> listarContas () {
 		
-		return contaRepository.findAll();
+		
+		List<Conta> contas = contaRepository.findAll();
+		return contas.stream().map(conta -> ParseDTO.contaToContaDto(conta)).collect(Collectors.toList());
 		
 	}
 	
-public Optional<Conta> buscarContaPorID (Long id) {
+public Conta buscarContaPorID (Long id) {
 		
-		return contaRepository.findById(id);
+		return contaRepository.findById(id).orElseThrow(() -> new  SoutSystemNotFoundException(ExceptionMessages.getContaNotFoundExceptionMessage(id)));
 		
 	}
-	public ContaDTO salvarConta (Conta conta) {
+	public Conta salvarConta (Conta conta) {
 		
 		Conta contaSalva = contaRepository.save(conta);
 	
 		
-		ContaDTO contaDto =ParseDTO.contaToContaDto(contaSalva);
-		return contaDto;
+	
+		return contaSalva;
 		
 		
 	

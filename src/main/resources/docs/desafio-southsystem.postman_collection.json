@@ -1,0 +1,126 @@
+{
+	"info": {
+		"_postman_id": "e42778ca-fe4a-4707-a04e-831b924c19a9",
+		"name": "desafio-southsystem",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "buscarPessoas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		},
+		{
+			"name": "CadastrarPessoas",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n   {\r\n   \"nome\" : \"Rodolfo\",\r\n   \"tipoPessoa\" : \"pj\",\r\n   \"numDocumento\" : \"45264604854811258\"\r\n   },\r\n   {\r\n   \"nome\" : \"Luis\",\r\n   \"tipoPessoa\" : \"pf\",\r\n   \"numDocumento\" : \"45445645644\"\r\n   },\r\n   {\r\n   \"nome\" : \"Clinica Adorale\",\r\n   \"tipoPessoa\" : \"pj\",\r\n   \"numDocumento\" : \"655665656565656565\"\r\n   },\r\n   {\r\n   \"nome\" : \"Francisco\",\r\n   \"tipoPessoa\" : \"pf\",\r\n   \"numDocumento\" : \"888454454844\"\r\n   }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pessoa/cadastrarPessoas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pessoa",
+						"cadastrarPessoas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscarContas",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/conta",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"conta"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "CadastrarPessoa",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n    {\r\n   \"nome\" : \"David\",\r\n   \"tipoPessoa\" : \"pf\",\r\n   \"numDocumento\" : \"452551115454\"\r\n   },\r\n   {\r\n   \"nome\" : \"Rodolfo\",\r\n   \"tipoPessoa\" : \"pj\",\r\n   \"numDocumento\" : \"45264604854811258\"\r\n   },\r\n   {\r\n   \"nome\" : \"Luis\",\r\n   \"tipoPessoa\" : \"pf\",\r\n   \"numDocumento\" : \"45445645644\"\r\n   },\r\n   {\r\n   \"nome\" : \"Clinica Adorale\",\r\n   \"tipoPessoa\" : \"pj\",\r\n   \"numDocumento\" : \"655665656565656565\"\r\n   },\r\n   {\r\n   \"nome\" : \"Francisco\",\r\n   \"tipoPessoa\" : \"pf\",\r\n   \"numDocumento\" : \"888454454844\"\r\n   }\r\n]",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/pessoa/cadastrarPessoas",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"pessoa",
+						"cadastrarPessoas"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "buscarPessoasPeloID",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": null
+			},
+			"response": []
+		}
+	]
+}

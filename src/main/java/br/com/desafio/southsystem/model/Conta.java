@@ -42,7 +42,4 @@ public class Conta {
 	private BigDecimal cartaoCredito;
 	
 	
-	@OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "pessoa_id", referencedColumnName = "id")
-	private Pessoa pessoa;
 }
