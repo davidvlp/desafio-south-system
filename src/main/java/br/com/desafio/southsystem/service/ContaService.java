@@ -23,7 +23,7 @@ public class ContaService {
 	public List<ContaDTO> listarContas() {
 
 		List<Conta> contas = contaRepository.findAll();
-		return contas.stream().map(conta -> ParseDTO.contaToContaDto(conta)).collect(Collectors.toList());
+		return contas.stream().map(ParseDTO::contaToContaDto).collect(Collectors.toList());
 
 	}
 

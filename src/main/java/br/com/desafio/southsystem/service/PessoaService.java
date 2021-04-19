@@ -31,7 +31,7 @@ public class PessoaService {
 
 		List<Pessoa> pessoas = pessoaRepository.findAll();
 
-		return pessoas.stream().map(pessoa -> ParseDTO.pessoaToPessoaDto(pessoa)).collect(Collectors.toList());
+		return pessoas.stream().map(ParseDTO::pessoaToPessoaDto).collect(Collectors.toList());
 	}
 
 	public Pessoa buscarPessoa(Long id) {
@@ -65,22 +65,30 @@ public class PessoaService {
 
 		try {
 
-			for (PessoaDTO pessoaDTO2 : pessoaDto) {
-
-				Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(pessoaDTO2);
+			pessoaDto.stream().forEach(p ->{
+				
+				
+				
+				
+				
+				Pessoa pessoa = ParseDTO.pessoaDtoToPessoa(p);
 				Random random = new Random();
 				Integer score = random.nextInt(9);
 				pessoa.setScore(score);
 				Conta conta = montarDadosConta(pessoa, random);
-
+				
 				conta = contaService.salvarConta(conta);
-
+				
 				pessoa.setConta(conta);
-
+				
 				pessoa = pessoaRepository.save(pessoa);
-
+				
 				listaPessoas.add(ParseDTO.pessoaToPessoaDto(pessoa));
-			}
+				
+				
+			});
+
+			
 
 		} catch (Exception e) {
 			e.printStackTrace();
